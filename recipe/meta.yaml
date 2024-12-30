@@ -6,11 +6,11 @@ package:
   version: "{{ version }}"
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: af67160f89123886ab42b247262862bfcde0a3c236229ecdd59de0a1e8e35d96
 
 build:
-  number: 0
+  number: 1
   entry_points:
     - sadisplay = sadisplay.reflect:run
   noarch: python
@@ -20,12 +20,14 @@ build:
 requirements:
   host:
     - pip
-    - python
+    - python {{ python_min }}
   run:
-    - python
+    - python >={{ python_min }}
     - sqlalchemy >=0.5
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - sadisplay
   commands:
