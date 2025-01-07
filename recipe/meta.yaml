@@ -6,26 +6,29 @@ package:
   version: "{{ version }}"
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: af67160f89123886ab42b247262862bfcde0a3c236229ecdd59de0a1e8e35d96
 
 build:
-  number: 0
+  number: 1
   entry_points:
     - sadisplay = sadisplay.reflect:run
   noarch: python
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 
 requirements:
   host:
+    - python {{ python_min }}
+    - setuptools
     - pip
-    - python
   run:
-    - python
+    - python >={{ python_min }}
     - sqlalchemy >=0.5
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - sadisplay
   commands:
@@ -33,7 +36,7 @@ test:
 
 about:
   home: http://bitbucket.org/estin/sadisplay
-  license: BSD-3-clause
+  license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
   summary: SqlAlchemy schema display script
