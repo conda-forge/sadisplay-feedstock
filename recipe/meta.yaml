@@ -14,13 +14,14 @@ build:
   entry_points:
     - sadisplay = sadisplay.reflect:run
   noarch: python
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 
 requirements:
   host:
-    - pip
     - python {{ python_min }}
+    - setuptools
+    - pip
   run:
     - python >={{ python_min }}
     - sqlalchemy >=0.5
@@ -35,7 +36,7 @@ test:
 
 about:
   home: http://bitbucket.org/estin/sadisplay
-  license: BSD-3-clause
+  license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
   summary: SqlAlchemy schema display script
